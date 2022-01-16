@@ -1,0 +1,27 @@
+import socket
+s=socket.socket()
+host=socket.gethostname()
+port=8080
+s.bind((host,port))
+s.listen(1)
+print("waiting for two conection....")
+conn,addr=s.accept()
+print("client one has connected")
+conn.send("welcome to the server".encode())
+print("waiting for one conection....")
+conn1,addr1=s.accept()
+print("client1 one has connected...")
+conn1.send("welcome to the server".encode())
+while 1:
+    message=input(str(">>"))
+    message=message.encode()
+    conn.send(message)
+    conn1.send(message)
+    print("msg sent")
+    recv_message=conn.recv(1024)
+    print("client:",recv_message.decode())
+    conn1.send(recv_message)
+    recv_message=conn1.recv(1024)
+    print("client:",recv_message.decode())
+    conn.send(recv_message)
+    
